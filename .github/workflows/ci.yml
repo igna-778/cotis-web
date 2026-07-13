@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+  WORKSPACE_FEATURES: complex_color,complex_colored_text
+
+jobs:
+  check:
+    name: Format, lint, test, and docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Clippy (cotis-web-builder)
+        run: cargo clippy -p cotis-web-builder --all-targets -- -D warnings
+
+      - name: Test (cotis-web-builder)
+        run: cargo test -p cotis-web-builder
+
+      - name: Check WASM crates
+        run: |
+          cargo check -p cotis-web --target wasm32-unknown-unknown --features $WORKSPACE_FEATURES
+          cargo check -p web-example --target wasm32-unknown-unknown
+
+      - name: Clippy (cotis-web, wasm32)
+        run: cargo clippy -p cotis-web --target wasm32-unknown-unknown -- -D warnings
+
+      - name: Build documentation
+        run: cargo doc -p cotis-web --no-deps --target wasm32-unknown-unknown --all-features
+
+  check-windows:
+    name: Test (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Test
+        run: cargo test -p cotis-web-builder

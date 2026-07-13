@@ -1,0 +1,47 @@
+[package]
+name = "cotis-web"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Browser/WASM render backend for the Cotis UI framework"
+readme = "../README.md"
+documentation = "https://docs.rs/cotis-web"
+keywords = ["gui", "ui", "wasm", "web"]
+categories = ["gui", "wasm", "web-programming"]
+
+[features]
+default = ["app_launch"]
+# Forward to cotis: enable `#[cotis_start_async]` / `cotis_launch_async` dispatch.
+app_launch = ["cotis/app_launch"]
+# Forward to cotis-defaults: `CotisStyle::background_color` becomes `ColorLayer`.
+complex_color = ["cotis-defaults/complex_color"]
+# Forward to cotis-defaults: `TextConfig::color` becomes `ColorLayer` (non-`Copy` text config).
+complex_colored_text = ["cotis-defaults/complex_colored_text"]
+
+[lib]
+crate-type = ["rlib"] # WASM apps (e.g. web-example) provide the cdylib entry point
+
+[dependencies]
+cotis = "0.1.0-alpha"
+cotis-utils = "0.1.0-alpha"
+cotis-defaults = "0.1.0-alpha"
+wasm-bindgen = { version = "0.2" }
+wasm-bindgen-futures = "0.4.56"
+js-sys = { version = "0.3.77" }
+serde_json = "1.0.140"
+log = "0.4.28"
+console_log = "1.0.0"
+web-sys = { version = "0.3.83", features = [
+    "Window",
+    "Location",
+    "Document",
+    "Element",
+    "HtmlElement",
+    "CssStyleDeclaration",
+    "Node",
+] }
+format = "0.2.4"
+indexmap = "2.14.0"

@@ -1,0 +1,11 @@
+[workspace]
+members = ["cotis-web", "web-example", "cotis-web-builder"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0-alpha"
+edition = "2024"
+license = "MIT"
+authors = ["Ignacio Castán"]
+repository = "https://github.com/igna-778/cotis-web.git"
+homepage = "https://github.com/igna-778/cotis-web.git"

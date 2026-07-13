@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rust Wasm Test</title>
+    <script type="module">
+
+        import init, { init_wasm, main_run } from '__COTIS_WEB_WASM_IMPORT_PATH__';
+
+        async function boot() {
+            await init();
+            init_wasm();
+            await main_run();
+            const jsRenderLoop = () => {
+                requestAnimationFrame(jsRenderLoop);
+            };
+            requestAnimationFrame(jsRenderLoop);
+            console.log("cotis app started");
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", () => {
+                boot().catch((err) => console.error("cotis boot failed:", err));
+            });
+        } else {
+            boot().catch((err) => console.error("cotis boot failed:", err));
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

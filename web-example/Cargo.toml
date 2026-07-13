@@ -1,0 +1,41 @@
+[package]
+name = "web-example"
+version.workspace = true
+edition.workspace = true
+publish = false
+
+[features]
+default = ["app_launch"]
+app_launch = ["cotis/app_launch", "cotis-web/app_launch"]
+HTMLRenderer = []
+# Forward to cotis-defaults: `CotisStyle::background_color` becomes `ColorLayer`.
+complex_color = ["app_launch", "cotis-web/complex_color", "cotis-defaults/complex_color"]
+# Forward to cotis-defaults: `TextConfig::color` becomes `ColorLayer` (non-`Copy` text config).
+complex_colored_text = [
+    "app_launch",
+    "cotis-web/complex_colored_text",
+    "cotis-defaults/complex_colored_text",
+]
+
+[lib]
+crate-type = ["cdylib"]
+
+[[bin]]
+# Distinct from the cdylib (`web_example`) so MSVC does not share one `.pdb` (see cargo#6313).
+name = "web-example-native"
+path = "src/main.rs"
+
+[dependencies]
+cotis = "0.1.0-alpha"
+cotis-macros = "0.1.0-alpha"
+cotis-utils = "0.1.0-alpha"
+cotis-defaults = "0.1.0-alpha"
+cotis-layout = "0.1.0-alpha"
+cotis-pipes = "0.1.0-alpha"
+cotis-web = { path = "../cotis-web" }
+wasm-bindgen = "0.2.106"
+wasm-bindgen-futures = "0.4.56"
+log = "0.4.28"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.4"
