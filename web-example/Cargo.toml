@@ -31,7 +31,7 @@ cotis-macros = "0.1.0-alpha"
 cotis-utils = "0.1.0-alpha"
 cotis-defaults = "0.1.0-alpha"
 cotis-layout = "0.1.0-alpha"
-cotis-pipes = "0.1.0-alpha"
+cotis-pipes = "0.1.0-alpha.3"
 cotis-web = { path = "../cotis-web" }
 wasm-bindgen = "0.2.106"
 wasm-bindgen-futures = "0.4.56"
