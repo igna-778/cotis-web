@@ -57,7 +57,7 @@ pub struct HTMLCanvas {
     current_element: Option<ElementBuilder>,
 
     /// When set, `current_element` belongs to this render command id (`cotis-{id}` in the DOM).
-    active_command_element_id: Option<u32>,
+    active_command_element_id: Option<u128>,
 
     // Counter for generating unique element IDs (e.g. clip containers)
     element_counter: usize,
@@ -98,7 +98,7 @@ impl HTMLCanvas {
     /// same `command_id` accumulate `current_element_css_push` on one DOM node (`cotis-{id}`).
     pub fn ensure_command_element(
         &mut self,
-        command_id: u32,
+        command_id: u128,
         html_type: &str,
         extra_style: Option<&str>,
     ) {
@@ -244,7 +244,7 @@ impl HTMLCanvas {
     /// subsequent elements are clipped. Used by [`drawable_defaults`](drawable_defaults).
     pub(crate) fn push_scissor(
         &mut self,
-        command_id: u32,
+        command_id: u128,
         x: f32,
         y: f32,
         width: f32,

@@ -293,17 +293,21 @@ pub(crate) mod primitives {
         bindings::waitForNextFrame().await;
     }
 
-    pub fn get_custom_element_html(element_id: u64) -> Option<String> {
-        bindings::get_custom_element_html(JsValue::from_f64(element_id as f64)).as_string()
+    pub fn get_custom_element_html(element_id: u128) -> Option<String> {
+        // Pass as decimal string so the full u128 survives the JS boundary (Number is only 53-bit).
+        bindings::get_custom_element_html(JsValue::from_str(&element_id.to_string())).as_string()
     }
 
     pub fn get_custom_element_properties(
-        element_id: u64,
+        element_id: u128,
         selector: Option<&str>,
     ) -> Option<String> {
         let selector = selector.map(JsValue::from_str).unwrap_or(JsValue::NULL);
-        bindings::get_custom_element_properties(JsValue::from_f64(element_id as f64), selector)
-            .as_string()
+        bindings::get_custom_element_properties(
+            JsValue::from_str(&element_id.to_string()),
+            selector,
+        )
+        .as_string()
     }
 
     pub fn begin_frame() {

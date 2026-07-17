@@ -488,7 +488,7 @@ function collectElementProperties(element) {
 }
 
 export function get_custom_element_html(elementId) {
-    const element = customElementsById.get(Number(elementId));
+    const element = customElementsById.get(String(elementId));
     if (!element) {
         return null;
     }
@@ -496,7 +496,7 @@ export function get_custom_element_html(elementId) {
 }
 
 export function get_custom_element_properties(elementId, selector) {
-    const host = customElementsById.get(Number(elementId));
+    const host = customElementsById.get(String(elementId));
     if (!host) {
         return null;
     }
@@ -712,7 +712,7 @@ function renderLoopHTML(commands) {
                     break;
                 }
 
-                const rustId = Number(renderCommand.id);
+                const rustId = String(renderCommand.id ?? 0);
                 const id = elementId(renderCommand);
                 const pos = toLocalPosition(bb);
                 const tagName = normalizeCustomHostTag(config.tag);

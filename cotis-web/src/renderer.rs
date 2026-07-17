@@ -118,7 +118,7 @@ impl HTMLRenderer {
     /// # WASM
     ///
     /// Queries the live DOM; call after the frame that created or updated the element.
-    pub fn get_custom_element_html(&self, element_id: u64) -> Option<String> {
+    pub fn get_custom_element_html(&self, element_id: u128) -> Option<String> {
         crate::web_functions::primitives::get_custom_element_html(element_id)
     }
 
@@ -147,7 +147,7 @@ impl HTMLRenderer {
     /// ```
     pub fn get_custom_element_properties(
         &self,
-        element_id: u64,
+        element_id: u128,
         selector: Option<&str>,
     ) -> Option<String> {
         crate::web_functions::primitives::get_custom_element_properties(element_id, selector)
